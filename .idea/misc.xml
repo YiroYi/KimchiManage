@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/ic_vector_white_done_24dp.xml" value="0.271" />
         <entry key="app/src/main/res/drawable/shape_button_rounded.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.3858695652173913" />
+        <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.34193840579710144" />
       </map>

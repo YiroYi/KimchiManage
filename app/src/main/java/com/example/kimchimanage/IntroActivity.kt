@@ -19,5 +19,9 @@ class IntroActivity : AppCompatActivity() {
     btn_sign_up_intro.setOnClickListener {
       startActivity(Intent(this, SignUpActivity::class.java))
     }
+
+    btn_sign_in_intro.setOnClickListener {
+      startActivity(Intent(this, SignInActivity::class.java))
+    }
   }
 }
