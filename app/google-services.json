@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187501998568",
+    "project_id": "kimchimanage",
+    "storage_bucket": "kimchimanage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187501998568:android:6fa7a2ee4226ec408cb45d",
+        "android_client_info": {
+          "package_name": "com.example.kimchimanage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187501998568-l239g44lp0bguq5e5grvr0q20vs9o01j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3sILY47A32dOdjREsd5RKni-nlCR888g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187501998568-l239g44lp0bguq5e5grvr0q20vs9o01j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
