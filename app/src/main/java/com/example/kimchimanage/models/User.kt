@@ -31,7 +31,7 @@ data class User (
     writeLong(mobile)
     writeString(fcmToken)
   }
-  
+
   companion object CREATOR : Parcelable.Creator<User> {
     override fun createFromParcel(parcel: Parcel): User {
       return User(parcel)
