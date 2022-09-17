@@ -6,6 +6,8 @@ import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.kimchimanage.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.et_email
@@ -44,16 +46,34 @@ class SignUpActivity : BaseActivity() {
     val email: String = et_email.text.toString().trim() { it <= ' '}
     val password: String = et_password_sign_up.text.toString().trim() { it <= ' '}
 
-    if(validateform(name, email, password)) {
-      Toast.makeText(
-        this@SignUpActivity,
-        "Now we can Register a new User",
-        Toast.LENGTH_LONG
-      ).show()
+    if(validateForm(name, email, password)) {
+      showProgressDialog(resources.getString(R.string.please_wait))
+      FirebaseAuth.getInstance()
+        .createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+           task ->
+           hideProgressDialog()
+           if(task.isSuccessful) {
+             val firebaseUser : FirebaseUser = task.result!!.user!!
+             val registeredEmail = firebaseUser.email!!
+             Toast.makeText(
+               this,
+               "$name you have successfully register with $registeredEmail",
+               Toast.LENGTH_LONG
+             ).show()
+             FirebaseAuth.getInstance().signOut()
+             finish()
+           } else {
+             Toast.makeText(
+               this,
+               task.exception!!.message,
+               Toast.LENGTH_LONG
+             ).show()
+           }
+        }
     }
   }
 
-  private fun validateform(
+  private fun validateForm(
     name: String,
     email: String,
     password: String): Boolean {
