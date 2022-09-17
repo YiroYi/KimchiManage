@@ -6,6 +6,8 @@ import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.kimchimanage.R
+import com.example.kimchimanage.firebase.FireStoreClass
+import com.example.kimchimanage.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -23,6 +25,17 @@ class SignUpActivity : BaseActivity() {
     )
 
     setupActionBar()
+  }
+
+  fun userRegisteredSuccess() {
+    Toast.makeText(
+               this,
+               "you have successfully registered",
+               Toast.LENGTH_LONG
+             ).show()
+    hideProgressDialog()
+    FirebaseAuth.getInstance().signOut()
+    finish()
   }
 
   private fun setupActionBar() {
@@ -51,17 +64,12 @@ class SignUpActivity : BaseActivity() {
       FirebaseAuth.getInstance()
         .createUserWithEmailAndPassword(email, password).addOnCompleteListener {
            task ->
-           hideProgressDialog()
            if(task.isSuccessful) {
              val firebaseUser : FirebaseUser = task.result!!.user!!
              val registeredEmail = firebaseUser.email!!
-             Toast.makeText(
-               this,
-               "$name you have successfully register with $registeredEmail",
-               Toast.LENGTH_LONG
-             ).show()
-             FirebaseAuth.getInstance().signOut()
-             finish()
+             val user = User(firebaseUser.uid, name, registeredEmail)
+
+             FireStoreClass().registerUser(this, user)
            } else {
              Toast.makeText(
                this,

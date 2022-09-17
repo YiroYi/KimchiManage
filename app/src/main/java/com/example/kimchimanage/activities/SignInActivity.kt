@@ -7,6 +7,8 @@ import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.kimchimanage.R
+import com.example.kimchimanage.firebase.FireStoreClass
+import com.example.kimchimanage.models.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -29,6 +31,12 @@ class SignInActivity : BaseActivity() {
     }
 
     setActionBar()
+  }
+
+  fun signInSuccess(user: User) {
+    hideProgressDialog()
+    startActivity(Intent(this, MainActivity::class.java))
+    finish()
   }
 
   private fun setActionBar() {
@@ -54,8 +62,7 @@ class SignInActivity : BaseActivity() {
         .addOnCompleteListener(this) { task ->
             hideProgressDialog()
             if (task.isSuccessful) {
-                val user = auth.currentUser
-                startActivity(Intent(this, MainActivity::class.java))
+                FireStoreClass().signInUser(this)
             } else {
                 Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()

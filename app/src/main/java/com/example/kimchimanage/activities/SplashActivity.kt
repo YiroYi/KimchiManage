@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
 import com.example.kimchimanage.R
+import com.example.kimchimanage.firebase.FireStoreClass
 import kotlinx.android.synthetic.main.activity_splash.*
 
 @SuppressLint("CustomSplashScreen")
@@ -27,8 +28,13 @@ class SplashActivity : BaseActivity() {
       tv_app_name.typeface = typeface
 
     Handler(Looper.getMainLooper()).postDelayed({
-      startActivity(Intent(this, IntroActivity::class.java))
-      finish() //
-}, 2500)
+      var currentUserId = FireStoreClass().getCurrentId()
+
+      if(currentUserId.isNotEmpty()) {
+        startActivity(Intent(this, MainActivity::class.java))
+      } else {
+        startActivity(Intent(this, IntroActivity::class.java))
+      }
+      finish() }, 2500)
   }
 }
