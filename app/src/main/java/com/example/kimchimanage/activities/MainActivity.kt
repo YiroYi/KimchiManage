@@ -1,10 +1,9 @@
 package com.example.kimchimanage.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.WindowManager
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import com.example.kimchimanage.R
@@ -21,10 +20,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
+    window.setFlags(
+      WindowManager.LayoutParams.FLAG_FULLSCREEN,
+      WindowManager.LayoutParams.FLAG_FULLSCREEN
+    )
+
     setupActionBar()
     nav_view.setNavigationItemSelectedListener(this)
 
-    FireStoreClass().signInUser(this)
+    FireStoreClass().loadUserData(this)
   }
 
   private fun setupActionBar() {
@@ -66,11 +70,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
   override fun onNavigationItemSelected(item: MenuItem): Boolean {
     when(item.itemId) {
       R.id.nav_my_profile -> {
-        Toast.makeText(
-          this@MainActivity,
-          "My Profile",
-          Toast.LENGTH_LONG
-        ).show()
+        val intent = Intent(this, MyProfileActivity::class.java)
+        startActivity(intent)
       }
 
       R.id.nav_sign_out -> {
