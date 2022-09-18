@@ -3,6 +3,7 @@ package com.example.kimchimanage.firebase
 import android.app.Activity
 import android.util.Log
 import com.example.kimchimanage.activities.MainActivity
+import com.example.kimchimanage.activities.MyProfileActivity
 import com.example.kimchimanage.activities.SignInActivity
 import com.example.kimchimanage.activities.SignUpActivity
 import com.example.kimchimanage.models.User
@@ -27,7 +28,7 @@ class FireStoreClass {
       }
   }
 
-  fun signInUser(activity: Activity) {
+  fun loadUserData(activity: Activity) {
     mFireStore.collection(Constants.USERS)
       .document(getCurrentId())
       .get()
@@ -41,6 +42,10 @@ class FireStoreClass {
 
           is MainActivity -> {
             activity.updateNavigationUserDetails(loggedInUser)
+          }
+
+          is MyProfileActivity -> {
+            activity.setUseDataInUi(loggedInUser)
           }
         }
 

@@ -1,7 +1,6 @@
 package com.example.kimchimanage.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowManager
@@ -62,7 +61,7 @@ class SignInActivity : BaseActivity() {
         .addOnCompleteListener(this) { task ->
             hideProgressDialog()
             if (task.isSuccessful) {
-                FireStoreClass().signInUser(this)
+                FireStoreClass().loadUserData(this)
             } else {
                 Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
