@@ -1,6 +1,8 @@
 package com.example.kimchimanage.firebase
 
+import android.app.Activity
 import android.util.Log
+import com.example.kimchimanage.activities.MainActivity
 import com.example.kimchimanage.activities.SignInActivity
 import com.example.kimchimanage.activities.SignUpActivity
 import com.example.kimchimanage.models.User
@@ -25,15 +27,34 @@ class FireStoreClass {
       }
   }
 
-  fun signInUser(activity: SignInActivity) {
+  fun signInUser(activity: Activity) {
     mFireStore.collection(Constants.USERS)
       .document(getCurrentId())
       .get()
       .addOnSuccessListener { document ->
         val loggedInUser = document.toObject(User::class.java)!!
-        activity.signInSuccess(loggedInUser)
-      }.addOnFailureListener {
-        e ->
+
+        when(activity) {
+          is SignInActivity -> {
+            activity.signInSuccess(loggedInUser)
+          }
+
+          is MainActivity -> {
+            activity.updateNavigationUserDetails(loggedInUser)
+          }
+        }
+
+
+      }.addOnFailureListener { e ->
+        when(activity) {
+          is SignInActivity -> {
+            activity.hideProgressDialog()
+          }
+
+          is MainActivity -> {
+            activity.hideProgressDialog()
+          }
+        }
         Log.e(activity.javaClass.simpleName, "Error")
       }
   }
