@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.kimchimanage.R
 import com.example.kimchimanage.firebase.FireStoreClass
 import com.example.kimchimanage.models.User
+import com.example.kimchimanage.utils.Constants
 import com.google.api.ResourceProto.resource
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -32,7 +33,8 @@ class MyProfileActivity : BaseActivity() {
   }
 
   private var mSelectedImageFileUri: Uri? = null
-  private var mProfileImageURL: String? = ""
+  private var mProfileImageURL: String = ""
+  private lateinit var mUserDetails: User
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -62,6 +64,9 @@ class MyProfileActivity : BaseActivity() {
     btn_update.setOnClickListener {
       if(mSelectedImageFileUri != null) {
         uploadUserImage()
+      } else {
+        showProgressDialog(resources.getString(R.string.please_wait))
+        updateUserProfileData()
       }
     }
   }
@@ -107,6 +112,26 @@ class MyProfileActivity : BaseActivity() {
     }
   }
 
+  private fun updateUserProfileData() {
+    val userHashMap = HashMap<String, Any>()
+
+
+    if(mProfileImageURL.isNotEmpty() && mProfileImageURL != mUserDetails.image) {
+      userHashMap[Constants.IMAGE] = mProfileImageURL
+    }
+
+    if(et_name.text.toString() != mUserDetails.name) {
+      userHashMap[Constants.NAME] = et_name.text.toString()
+    }
+
+    if(et_mobile.text.toString() != mUserDetails.mobile.toString()) {
+      userHashMap[Constants.MOBILE] = et_mobile.text.toString().toLong()
+    }
+
+    FireStoreClass().updateUserProfileData(this, userHashMap)
+
+  }
+
   private fun setupActionBar() {
     setSupportActionBar(toolbar_my_profile_activity)
 
@@ -121,6 +146,8 @@ class MyProfileActivity : BaseActivity() {
   }
 
   fun setUseDataInUi(user: User) {
+    mUserDetails = user
+
     Glide
       .with(this@MyProfileActivity)
       .load(user.image)
@@ -154,9 +181,7 @@ class MyProfileActivity : BaseActivity() {
           uri ->
           Log.i("Downloadable Image URL", uri.toString())
           mProfileImageURL = uri.toString()
-
-          hideProgressDialog()
-
+          updateUserProfileData()
         }
       }.addOnFailureListener{
         exception ->
@@ -175,5 +200,10 @@ class MyProfileActivity : BaseActivity() {
     return MimeTypeMap
       .getSingleton()
       .getExtensionFromMimeType(contentResolver.getType(uri!!))
+  }
+
+  fun profileUpdateSuccess() {
+    hideProgressDialog()
+    finish()
   }
 }

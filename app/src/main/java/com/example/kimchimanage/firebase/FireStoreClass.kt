@@ -2,6 +2,7 @@ package com.example.kimchimanage.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import com.example.kimchimanage.activities.MainActivity
 import com.example.kimchimanage.activities.MyProfileActivity
 import com.example.kimchimanage.activities.SignInActivity
@@ -25,6 +26,34 @@ class FireStoreClass {
       }.addOnFailureListener {
         e ->
         Log.e(activity.javaClass.simpleName, "Error")
+      }
+  }
+
+  fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
+    mFireStore.collection(Constants.USERS)
+      .document(getCurrentId())
+      .update(userHashMap)
+      .addOnSuccessListener {
+        Log.i(activity.javaClass.simpleName, "Profile Updated")
+        Toast.makeText(
+        activity,
+        "Data Updated",
+        Toast.LENGTH_LONG
+        ).show()
+        activity.profileUpdateSuccess()
+      }.addOnFailureListener {
+        e ->
+        activity.hideProgressDialog()
+        Log.i(
+          activity.javaClass.simpleName,
+          "Error while updating",
+        e)
+
+        Toast.makeText(
+        activity,
+        "Something went wrong",
+        Toast.LENGTH_LONG
+        ).show()
       }
   }
 
