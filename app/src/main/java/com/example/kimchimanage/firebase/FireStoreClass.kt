@@ -3,10 +3,8 @@ package com.example.kimchimanage.firebase
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
-import com.example.kimchimanage.activities.MainActivity
-import com.example.kimchimanage.activities.MyProfileActivity
-import com.example.kimchimanage.activities.SignInActivity
-import com.example.kimchimanage.activities.SignUpActivity
+import com.example.kimchimanage.activities.*
+import com.example.kimchimanage.models.Board
 import com.example.kimchimanage.models.User
 import com.example.kimchimanage.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +24,30 @@ class FireStoreClass {
       }.addOnFailureListener {
         e ->
         Log.e(activity.javaClass.simpleName, "Error")
+      }
+  }
+
+  fun createBoard(activity: CreateBoardActivity, board: Board) {
+    mFireStore.collection((Constants.BOARDS))
+      .document()
+      .set(board, SetOptions.merge())
+      .addOnSuccessListener {
+        Log.e(activity.javaClass.simpleName, "Board created successfully")
+        Toast.makeText(
+          activity,
+          "Board Created successfully",
+          Toast.LENGTH_SHORT
+        ).show()
+
+        activity.boardCreatedSuccessfully()
+      }.addOnFailureListener{
+        exception ->
+        activity.hideProgressDialog()
+        Log.e(
+          activity.javaClass.simpleName,
+          "Error",
+          exception
+        )
       }
   }
 
