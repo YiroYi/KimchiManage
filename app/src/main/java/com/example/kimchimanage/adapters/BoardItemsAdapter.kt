@@ -52,9 +52,15 @@ open class BoardItemsAdapter(
     fun onClick(position: Int, model: Board)
   }
 
+
   override fun getItemCount(): Int {
     return list.size
   }
 
   private class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+  fun setOnClickListener(onClickListener: OnClickListener) {
+    this.onClickListener = onClickListener
+  }
+
 }
