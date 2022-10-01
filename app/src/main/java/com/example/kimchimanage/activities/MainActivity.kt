@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
   companion object {
     const val MY_PROFILE_REQUEST_CODE: Int = 11
+    const val CREATE_BOARD_REQUEST_CODE: Int = 12
   }
 
   private lateinit var mUserName: String
@@ -49,7 +50,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         CreateBoardActivity::class.java)
 
       intent.putExtra(Constants.NAME, mUserName)
-      startActivity(intent)
+      startActivityForResult(intent, CREATE_BOARD_REQUEST_CODE)
     }
   }
 
@@ -100,7 +101,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     super.onActivityResult(requestCode, resultCode, data)
     if(resultCode == Activity.RESULT_OK && requestCode == MY_PROFILE_REQUEST_CODE) {
       FireStoreClass().loadUserData(this)
-    }else {
+    } else if(resultCode == Activity.RESULT_OK && requestCode == CREATE_BOARD_REQUEST_CODE) {
+      FireStoreClass().getBoardList(this)
+    } else {
       Log.e("Cancelled", "Cancelled")
 
     }
