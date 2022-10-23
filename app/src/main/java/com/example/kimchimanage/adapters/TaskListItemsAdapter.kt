@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kimchimanage.R
 import com.example.kimchimanage.activities.TaskListActivity
@@ -50,7 +51,7 @@ open class TaskListItemsAdapter(
 
       holder.itemView.tv_task_list_title.text = model.title
 
-      holder.itemView.tv_add_task_list.setOnClickListener{
+      holder.itemView.tv_add_task_list.setOnClickListener {
         holder.itemView.tv_add_task_list.visibility = View.GONE
         holder.itemView.cv_add_task_list_name.visibility = View.VISIBLE
       }
@@ -62,8 +63,8 @@ open class TaskListItemsAdapter(
 
       holder.itemView.ib_done_list_name.setOnClickListener {
         val listName = holder.itemView.et_task_list_name.text.toString()
-        if(listName.isNotEmpty()){
-          if(context is TaskListActivity) {
+        if (listName.isNotEmpty()) {
+          if (context is TaskListActivity) {
             context.createTaskList(listName)
           }
         } else {
@@ -91,17 +92,17 @@ open class TaskListItemsAdapter(
       val listName = holder
         .itemView.et_edit_task_list_name.text.toString()
 
-      if(listName.isNotEmpty()){
-          if(context is TaskListActivity) {
-            context.updateTaskList(position, listName, model)
-          }
-        } else {
-          Toast.makeText(
-            context,
-            "Please Enter List Name",
-            Toast.LENGTH_LONG
-          ).show()
+      if (listName.isNotEmpty()) {
+        if (context is TaskListActivity) {
+          context.updateTaskList(position, listName, model)
         }
+      } else {
+        Toast.makeText(
+          context,
+          "Please Enter List Name",
+          Toast.LENGTH_LONG
+        ).show()
+      }
     }
 
     holder.itemView.ib_delete_list.setOnClickListener {
@@ -119,19 +120,26 @@ open class TaskListItemsAdapter(
     }
 
     holder.itemView.ib_done_card_name.setOnClickListener {
-        val cardName = holder.itemView.et_card_name.text.toString()
-        if(cardName.isNotEmpty()){
-          if(context is TaskListActivity) {
-            context.addCardToTaskList(position, cardName)
-          }
-        } else {
-          Toast.makeText(
-            context,
-            "Please Enter Card Name",
-            Toast.LENGTH_LONG
-          ).show()
+      val cardName = holder.itemView.et_card_name.text.toString()
+      if (cardName.isNotEmpty()) {
+        if (context is TaskListActivity) {
+          context.addCardToTaskList(position, cardName)
         }
+      } else {
+        Toast.makeText(
+          context,
+          "Please Enter Card Name",
+          Toast.LENGTH_LONG
+        ).show()
       }
+    }
+
+    holder.itemView.rv_card_list.layoutManager = LinearLayoutManager(context)
+
+    holder.itemView.rv_card_list.setHasFixedSize(true)
+    val adapter = CardListItemsAdapter(context, model.cards)
+
+    holder.itemView.rv_card_list.adapter = adapter
   }
 
   override fun getItemCount(): Int {
@@ -147,29 +155,29 @@ open class TaskListItemsAdapter(
   class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
   private fun alertDialogForDeleteList(position: Int, title: String) {
-        val builder = AlertDialog.Builder(context)
-        //set title for alert dialog
-        builder.setTitle("Alert")
-        //set message for alert dialog
-        builder.setMessage("Are you sure you want to delete $title.")
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
-        //performing positive action
-        builder.setPositiveButton("Yes") { dialogInterface, which ->
-            dialogInterface.dismiss() // Dialog will be dismissed
+    val builder = AlertDialog.Builder(context)
+    //set title for alert dialog
+    builder.setTitle("Alert")
+    //set message for alert dialog
+    builder.setMessage("Are you sure you want to delete $title.")
+    builder.setIcon(android.R.drawable.ic_dialog_alert)
+    //performing positive action
+    builder.setPositiveButton("Yes") { dialogInterface, which ->
+      dialogInterface.dismiss() // Dialog will be dismissed
 
-            if (context is TaskListActivity) {
-                context.deleteTaskList(position)
-            }
-        }
-
-        //performing negative action
-        builder.setNegativeButton("No") { dialogInterface, which ->
-            dialogInterface.dismiss() // Dialog will be dismissed
-        }
-        // Create the AlertDialog
-        val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
-        alertDialog.setCancelable(false) // Will not allow user to cancel after clicking on remaining screen area.
-        alertDialog.show()  // show the dialog to UI
+      if (context is TaskListActivity) {
+        context.deleteTaskList(position)
+      }
     }
+
+    //performing negative action
+    builder.setNegativeButton("No") { dialogInterface, which ->
+      dialogInterface.dismiss() // Dialog will be dismissed
+    }
+    // Create the AlertDialog
+    val alertDialog: AlertDialog = builder.create()
+    // Set other dialog properties
+    alertDialog.setCancelable(false) // Will not allow user to cancel after clicking on remaining screen area.
+    alertDialog.show()  // show the dialog to UI
+  }
 }
