@@ -10,6 +10,7 @@ import com.example.kimchimanage.firebase.FireStoreClass
 import com.example.kimchimanage.models.Board
 import com.example.kimchimanage.models.Task
 import com.example.kimchimanage.utils.Constants
+import com.projemanag.model.Card
 import kotlinx.android.synthetic.main.activity_task_list.*
 
 class TaskListActivity : BaseActivity() {
@@ -95,6 +96,29 @@ class TaskListActivity : BaseActivity() {
     mBoardDetails.taskList.removeAt(position)
 
     mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size -1)
+
+    showProgressDialog(resources.getString(R.string.please_wait))
+    FireStoreClass().addUpdateTaskList(this, mBoardDetails)
+  }
+
+  fun addCardToTaskList(position: Int, cardName: String) {
+    mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size -1)
+
+    val cardAssignedUserList: ArrayList<String> = ArrayList()
+    cardAssignedUserList.add(FireStoreClass().getCurrentId())
+
+    val card = Card(cardName, FireStoreClass().getCurrentId(), cardAssignedUserList)
+
+    val cardsList = mBoardDetails.taskList[position].cards
+    cardsList.add(card)
+
+    val task = Task(
+      mBoardDetails.taskList[position].title,
+      mBoardDetails.taskList[position].createdBy,
+      cardsList
+    )
+
+    mBoardDetails.taskList[position] = task
 
     showProgressDialog(resources.getString(R.string.please_wait))
     FireStoreClass().addUpdateTaskList(this, mBoardDetails)

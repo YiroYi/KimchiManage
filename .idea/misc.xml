@@ -4,10 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_action_navigation_menu.xml" value="0.1635" />
+        <entry key="app/src/main/res/drawable/ic_black_color_back_24dp.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.148" />
+        <entry key="app/src/main/res/drawable/ic_nav_sign_out.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/ic_vector_add_24dp.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_vector_color_accent_done_24dp.xml" value="0.1635" />
+        <entry key="app/src/main/res/drawable/ic_vector_delete_24dp.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/ic_vector_white_done_24dp.xml" value="0.271" />
+        <entry key="app/src/main/res/drawable/ic_white_color_back_24dp.xml" value="0.1635" />
+        <entry key="app/src/main/res/drawable/nav_header_main_background.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/shape_button_rounded.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/white_border_shape_button_rounded.xml" value="0.1635" />
         <entry key="app/src/main/res/layout/activity_base.xml" value="0.3858695652173913" />
         <entry key="app/src/main/res/layout/activity_create_board.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.3858695652173913" />
@@ -20,6 +28,7 @@
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.3858695652173913" />
         <entry key="app/src/main/res/layout/dialog_progress.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/item_board.xml" value="0.40260416666666665" />
+        <entry key="app/src/main/res/layout/item_card.xml" value="0.35054347826086957" />
         <entry key="app/src/main/res/layout/item_task.xml" value="0.19579533941236069" />
         <entry key="app/src/main/res/layout/main_content.xml" value="0.3858695652173913" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.3858695652173913" />
